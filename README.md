@@ -1,3 +1,6 @@
+WARNING POST TALK
+Domain, IP, keys are cancelled, fork this and use your own!
+
 # Kickstart your projects on GKE
 
 ## Pre-requisites
