@@ -1,4 +1,4 @@
-# Kickstart your projects on GCP
+# Kickstart your projects on GKE
 
 ## Pre-requisites
 
