@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata: {name: influxdb}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels: {name: influxdb}
+    spec:
+      containers:
+      - image: influxdb:1.2.0
+        name: influxdb
+        ports:
+        - {containerPort: 8083, name: adminui}
+        - {containerPort: 8086, name: httpapi}
+        - {containerPort: 8088, name: internal}
+        resources:
+          limits: {cpu: 60m, memory: 256Mi}
+          requests: {cpu: 60m, memory: 128Mi}

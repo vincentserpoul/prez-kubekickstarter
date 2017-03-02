@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rethinkdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rethinkdb
+    spec:
+      containers:
+      - name: rethinkdb
+        image: rethinkdb:2.3.5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

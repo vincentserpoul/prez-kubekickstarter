@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana.config
+  namespace: default
+data:
+  session.cookie.name: "grafanakube"

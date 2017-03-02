@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - image: grafana/grafana:4.2.0-beta1
+        imagePullPolicy: Always
+        name: grafana
+        env:
+        - name: GF_SESSION_COOKIE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: grafana.config
+              key: session.cookie.name
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafana.secret
+              key: password
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000

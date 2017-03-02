@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gitea
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      containers:
+      - image: gitea/gitea:1.0.2
+        imagePullPolicy: Always
+        name: gitea
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000

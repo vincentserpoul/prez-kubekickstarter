@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cockroachdb
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: cockroachdb
+    spec:
+      containers:
+      - name: cockroachdb
+        image: cockroachdb/cockroach:beta-20170223
+        imagePullPolicy: Always
+        args:
+        - "start"
+        - "--insecure"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 26257
+        - containerPort: 5601
+      - name: oauth2-proxy
+        imagePullPolicy: Always
+        image: a5huynh/oauth2_proxy
+        args:
+          - "-upstream=http://localhost:5601/"
+          - "-provider=github"
+          - "-cookie-secure=true"
+          - "-cookie-expire=168h0m"
+          - "-cookie-refresh=60m"
+          - "-cookie-secret=123456789"
+          - "-cookie-domain=cockroachdb.coolnamegcp.tk"
+          - "-http-address=0.0.0.0:8080"
+          - "-redirect-url=http://cockroachdb.coolnamegcp.tk/oauth2/callback"
+          - "-github-org=kubeoauth"
+          - "-email-domain=*"
+          - "-client-id=c3a5521635a485af2b14"
+          - "-client-secret=5e1e0f50a35d547a7b23ff96df9783fb22d0d97c"
+        ports:
+        - containerPort: 8080

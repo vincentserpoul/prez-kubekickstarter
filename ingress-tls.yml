@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubestaticip
+  namespace: default
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.global-static-ip-name: "kubernetes-ingress"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  tls:
+  - secretName: www-tls
+    hosts:
+    - www.coolnamegcp.tk
+# GOOGLE GKE ingress controller does not yet support SNI (Server Name Indication - TLS), so only one cert per IP
+  - secretName: git-tls
+    hosts:
+    - git.coolnamegcp.tk
+  - secretName: rethinkdb-tls
+    hosts:
+    - rethinkdb.coolnamegcp.tk
+  rules:
+  - host: www.coolnamegcp.tk
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: wwwapp
+          servicePort: 80
+  - host: git.coolnamegcp.tk
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: gitea
+          servicePort: 80
+  - host: rethinkdb.coolnamegcp.tk
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: rethinkdb
+          servicePort: 80

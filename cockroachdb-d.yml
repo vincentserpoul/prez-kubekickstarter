@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cockroachdb
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cockroachdb
+    spec:
+      containers:
+      - image: cockroachdb/cockroach:beta-20170223
+        imagePullPolicy: Always
+        name: cockroachdb
+        args:
+        - "start"
+        - "--insecure"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 26257
+          containerPort: 8080

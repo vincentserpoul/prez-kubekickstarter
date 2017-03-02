@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wwwapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wwwapp
+    spec:
+      containers:
+      - name: wwwapp
+        image:  asia.gcr.io/kickstarter-160204/gorethinkdb
+        ports:
+        - containerPort: 3000

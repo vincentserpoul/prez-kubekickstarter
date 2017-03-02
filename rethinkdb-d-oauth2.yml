@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rethinkdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rethinkdb
+    spec:
+      containers:
+      - name: rethinkdb
+        imagePullPolicy: Always
+        image: rethinkdb:2.3.5
+        ports:
+        - containerPort: 8080
+      - name: oauth2-proxy
+        # This sets the port at 4180
+        image: estelora/oauth2_proxy
+        command:
+        # Please set these variables for your project.
+        - oauth2_proxy
+        # Here is an example of service discovery.
+        - --upstream=http://localhost:8080
+        - --provider=linkedin
+        - --client-id=81d3fcpjcj6mes
+        - --client-secret=nKktFAtflg2Y4JMV
+        - --cookie-domain=.rethinkdb.coolnamegcp.tk
+        - --redirect-url=http://rethinkdb.coolnamegcp.tk/oauth2/callback
+        - --cookie-secret="secret-chocolate-chip-cookie"
+        # This variable stays the same - this is an internal IP
+        - --http-address=0.0.0.0:4180
+        ports:
+        - containerPort: 4180
