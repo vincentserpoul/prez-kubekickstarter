@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: rethinkdb
+  name: rethinkdb-oauth2
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: rethinkdb
+        app: rethinkdb-oauth2
     spec:
       containers:
       - name: rethinkdb

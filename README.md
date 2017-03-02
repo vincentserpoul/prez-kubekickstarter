@@ -81,6 +81,9 @@ gitea-lb   10.15.243.115   <YOURIP>   80:30884/TCP   3m
 You can see @http://youip that gitea admin is accessible.
 Create a repo and clone it!
 
+LB checks are hard to handle with redirects, so install it now!
+Choose SQLLite3 and install. Once done, you can continue.
+
 ## Change service from loadBalancer to nodePort
 
 remove the one before
@@ -207,6 +210,11 @@ kubectl delete -f rethinkdb-d.yml -f rethinkdb-svc.yml
 and create the oauth2 ones
 ```
 kubectl apply -f rethinkdb-d-oauth2.yml -f rethinkdb-svc-oauth2.yml
+```
+
+```
+kubectl get svc
+wwwapp-lb   10.15.243.115   <YOURIP>   80:30884/TCP   3m
 ```
 
 Now check if you can still access the backend service!

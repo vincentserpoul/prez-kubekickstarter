@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rethinkdb
+  name: rethinkdb-oauth2
   namespace: default
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 4180
     protocol: TCP
   selector:
-    app: rethinkdb
+    app: rethinkdb-oauth2
